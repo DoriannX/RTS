@@ -1,0 +1,879 @@
+{
+	"folders": [
+		{
+			"name": "RTS",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off",
+		"npm.autoDetect": "off",
+		"terminal.integrated.env.linux": {
+			"PATH": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64:${env:PATH}",
+			"DOTNET_ROOT": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64",
+			"DOTNET_HOST_PATH": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64/dotnet",
+			"DOTNET_MULTILEVEL_LOOKUP": "0",
+			"DOTNET_ROLL_FORWARD": "LatestMajor"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "RTS Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS Linux Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS Linux Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS Linux Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"Linux",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS LinuxArm64 Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS LinuxArm64 DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS LinuxArm64 Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS LinuxArm64 Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Test",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTS LinuxArm64 Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTS LinuxArm64 Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTS",
+					"LinuxArm64",
+					"Shipping",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTSEditor Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Debug",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTSEditor Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"DebugGame",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"RTSEditor Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			},
+			{
+				"label": "RTSEditor Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"RTSEditor",
+					"Linux",
+					"Development",
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+				}
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch RTS (Debug)",
+				"request": "launch",
+				"program": "/home/Dodo/Documents/Unreal Projects/RTS/Binaries/Linux/UnrealGame-Linux-Debug",
+				"preLaunchTask": "RTS Linux Debug Build",
+				"args": [
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTS (DebugGame)",
+				"request": "launch",
+				"program": "/home/Dodo/Documents/Unreal Projects/RTS/Binaries/Linux/UnrealGame-Linux-DebugGame",
+				"preLaunchTask": "RTS Linux DebugGame Build",
+				"args": [
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTS (Development)",
+				"request": "launch",
+				"program": "/home/Dodo/Documents/Unreal Projects/RTS/Binaries/Linux/UnrealGame",
+				"preLaunchTask": "RTS Linux Development Build",
+				"args": [
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTS (Test)",
+				"request": "launch",
+				"program": "/home/Dodo/Documents/Unreal Projects/RTS/Binaries/Linux/UnrealGame-Linux-Test",
+				"preLaunchTask": "RTS Linux Test Build",
+				"args": [
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTS (Shipping)",
+				"request": "launch",
+				"program": "/home/Dodo/Documents/Unreal Projects/RTS/Binaries/Linux/UnrealGame-Linux-Shipping",
+				"preLaunchTask": "RTS Linux Shipping Build",
+				"args": [
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTSEditor (Debug)",
+				"request": "launch",
+				"program": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
+				"preLaunchTask": "RTSEditor Linux Debug Build",
+				"args": [
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject"
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTSEditor (DebugGame)",
+				"request": "launch",
+				"program": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
+				"preLaunchTask": "RTSEditor Linux DebugGame Build",
+				"args": [
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject"
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch RTSEditor (Development)",
+				"request": "launch",
+				"program": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/Linux/UnrealEditor",
+				"preLaunchTask": "RTSEditor Linux Development Build",
+				"args": [
+					"/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject"
+				],
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3",
+				"type": "cppdbg",
+				"visualizerFile": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Generate Project Files",
+				"type": "coreclr",
+				"request": "launch",
+				"preLaunchTask": "UnrealBuildTool Linux Development Build",
+				"program": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Build/BatchFiles/RunUBT.bat",
+				"args": [
+					"-projectfiles",
+					"-vscode",
+					"-project=/home/Dodo/Documents/Unreal Projects/RTS/RTS.uproject",
+					"-game",
+					"-engine",
+					"-dotnet"
+				],
+				"env": {
+					"PATH": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64:${env:PATH}",
+					"DOTNET_ROOT": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64",
+					"DOTNET_HOST_PATH": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Binaries/ThirdParty/DotNet/8.0.300/linux-x64/dotnet",
+					"DOTNET_MULTILEVEL_LOOKUP": "0",
+					"DOTNET_ROLL_FORWARD": "LatestMajor"
+				},
+				"console": "internalConsole",
+				"internalConsoleOptions": "openOnSessionStart",
+				"stopAtEntry": false,
+				"cwd": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3"
+			}
+		]
+	}
+}

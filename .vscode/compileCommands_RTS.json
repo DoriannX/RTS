@@ -1,0 +1,90 @@
+[
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTS.Build.cs",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTS.cpp",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTS.h",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSCharacter.cpp",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSCharacter.h",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSGameMode.cpp",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSGameMode.h",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSPlayerController.cpp",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/RTSPlayerController.h",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/SPlayerPawn.cpp",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	},
+	{
+		"file": "/home/Dodo/Documents/Unreal Projects/RTS/Source/RTS/SPlayerPawn.h",
+		"arguments": [
+			"/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/bin/clang++",
+			"@/home/Dodo/Documents/Unreal Projects/RTS/.vscode/compileCommands_RTS/RTS.1.rsp"
+		],
+		"directory": "/var/home/Dodo/Linux_Unreal_Engine_5.5.3/Engine/Source"
+	}
+]
