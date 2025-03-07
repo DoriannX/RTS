@@ -13,6 +13,15 @@ enum ECommandType
 	CommandMoveAttack
 };
 
+UENUM(BlueprintType)
+enum EFormation
+{
+	Line,
+	Column,
+	Wedge,
+	Blob
+};
+
 USTRUCT(BlueprintType)
 struct FCommandData
 {
