@@ -1,11 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
-
-#include "CoreMinimal.h"
+#include "AIData.h"
 #include "Selectable.h"
+#include "AI/SAIController.h"
 #include "GameFramework/Character.h"
 #include "RTSCharacter.generated.h"
+
 
 UCLASS(Blueprintable)
 class ARTSCharacter : public ACharacter, public ISelectable
@@ -41,6 +42,52 @@ public:
 
 	UPROPERTY()
 	bool Selected;
+
+	/** Command Functions **/
+public:
+	UFUNCTION()
+	void CommandMoveToLocation(const FCommandData CommandData);
+
+	UFUNCTION()
+	void SetAIController(ASaiController* NewAIController) {SAIController = NewAIController;}
+protected:
+	UFUNCTION()
+	void CommandMove(const FCommandData CommandData);
+
+	UFUNCTION()
+	void DestinationReached(const FCommandData CommandData);
+	
+	UFUNCTION()
+	void SetWalk() const;
+
+	UFUNCTION()
+	void SetRun() const;
+
+	UFUNCTION()
+	void SetSprint() const;
+
+	UFUNCTION()
+	void SetOrientation(const float DeltaTime);
+
+	UFUNCTION()
+	bool IsOrientated() const;
+
+	UPROPERTY()
+	UCharacterMovementComponent* CharacterMoveComp;
+
+	UPROPERTY()
+	float MaxSpeed;
+
+	UPROPERTY()
+	FRotator TargetOrientation;
+
+	UPROPERTY()
+	uint8 ShouldOrientate;
+
+	UPROPERTY()
+	ASaiController* SAIController;
+	
+	/** End Command Functions **/
 	
 };
 

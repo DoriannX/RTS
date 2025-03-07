@@ -113,7 +113,7 @@ protected:
 
 	/** Command Functions **/
 
-	UPROPERTY()
+	UFUNCTION()
 	FCommandData CreateCommandData(const ECommandType Type) const;
 	
 	UPROPERTY()

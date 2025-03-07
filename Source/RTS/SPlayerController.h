@@ -67,6 +67,18 @@ protected:
 	UPROPERTY()
 	FSelectedUpdatedDelegate OnSelectedUpdated;
 
+	/** Command Functions **/
+public:
+	UFUNCTION()
+	void CommandSelected(FCommandData CommandData);
+
+protected:
+	UFUNCTION(Server, Reliable)
+	void Server_CommandSelected(FCommandData CommandData);
+	
+	/** End Command Functions **/
+	
+
 	/** Enhanced Input **/
 
 public:
