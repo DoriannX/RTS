@@ -16,7 +16,7 @@ enum ECommandType
 UENUM(BlueprintType)
 enum EFormation
 {
-	Line,
+	Line	UMETA(DisplayName =" Line Formation"),
 	Column,
 	Wedge,
 	Blob
