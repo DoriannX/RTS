@@ -26,9 +26,12 @@ USTRUCT(BlueprintType)
 struct FCommandData
 {
 	GENERATED_BODY()
-	FCommandData() : Location(FVector::ZeroVector), Rotation(FRotator::ZeroRotator), Type(CommandMove), Target(nullptr) {}
+	FCommandData() : SourceLocation(FVector::ZeroVector), Location(FVector::ZeroVector),  Rotation(FRotator::ZeroRotator), Type(CommandMove), Target(nullptr) {}
 	FCommandData(const FVector& InLocation, const FRotator& InRotation, const ECommandType InType, AActor* InTarget = nullptr)
-		: Location(InLocation), Rotation(InRotation), Type(InType), Target(InTarget) {}
+		: SourceLocation(InLocation), Location(InLocation), Rotation(InRotation), Type(InType), Target(InTarget) {}
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FVector SourceLocation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FVector Location;

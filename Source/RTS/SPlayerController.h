@@ -3,11 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AIData.h"
 #include "PlayerInputActions.h"
 #include "PlayerInputActions.h"
 #include "GameFramework/PlayerController.h"
 #include "SPlayerController.generated.h"
 
+class UFormationDataAsset;
+class UHudWidget;
+struct FCommandData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSelectedUpdatedDelegate);
 
 /**
@@ -17,6 +21,7 @@ UCLASS()
 class RTS_API ASPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
 public:
 	ASPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&) const override;
@@ -24,7 +29,7 @@ public:
 	UFUNCTION()
 	void Handle_Selection(AActor* ActorToSelect);
 	void Handle_Selection(TArray<AActor*> ActorsToSelect);
-	
+
 	UFUNCTION()
 	void Handle_DeSelection(AActor* ActorToSelect);
 	void Handle_DeSelection(TArray<AActor*> ActorsToSelect);
@@ -36,7 +41,13 @@ public:
 	FVector GetMousePositionOnSurface() const;
 
 	virtual void Tick(float DeltaSeconds) override;
-	
+
+	UFUNCTION()
+	bool HasGroupSelection() const { return Selected.Num() > 1; }
+
+	UPROPERTY()
+	FSelectedUpdatedDelegate OnSelectedUpdated;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -51,7 +62,7 @@ protected:
 
 	UFUNCTION(Server, Reliable)
 	void Server_DeSelect(AActor* ActorToDeselect);
-	
+
 	UFUNCTION(Server, Reliable)
 	void Server_DeSelect_Group(const TArray<AActor*>& ActorsToDeSelect);
 
@@ -64,20 +75,47 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_Selected)
 	TArray<AActor*> Selected;
 
-	UPROPERTY()
-	FSelectedUpdatedDelegate OnSelectedUpdated;
-
 	/** Command Functions **/
 public:
 	UFUNCTION()
 	void CommandSelected(FCommandData CommandData);
 
+	UFUNCTION()
+	void UpdateFormation(const EFormation Formation);
+	
+	UFUNCTION()
+	void UpdateSpacing(const float NewSpacing);
+
 protected:
 	UFUNCTION(Server, Reliable)
 	void Server_CommandSelected(FCommandData CommandData);
-	
+
+	UFUNCTION()
+	void CreateFormationData();
+
+	UFUNCTION()
+	void OnFormationDataLoaded(TArray<FPrimaryAssetId> Formations);
+
+	UFUNCTION()
+	UFormationDataAsset* GetFormationData();
+
+	UFUNCTION()
+	void CalculateOffset(const int Index, FCommandData& CommandData);
+
+	UPROPERTY()
+	TEnumAsByte<EFormation> CurrentFormation;
+
+	UPROPERTY()
+	float FormationSpacing;
+
+	UPROPERTY()
+	UAssetManager* AssetManager;
+
+	UPROPERTY()
+	TArray<UFormationDataAsset*> FormationData;
+
 	/** End Command Functions **/
-	
+
 
 	/** Enhanced Input **/
 
@@ -115,27 +153,27 @@ protected:
 	/** Placement **/
 public:
 	UFUNCTION()
-	bool IsPlacementModeEnabled() const { return bPlacementModeEnabled;}
+	bool IsPlacementModeEnabled() const { return bPlacementModeEnabled; }
 
 	UFUNCTION()
 	void SetPlacementPreview();
 
 	UFUNCTION()
 	void Place();
-	
+
 	UFUNCTION()
 	void PlaceCanceled();
 
 protected:
 	UFUNCTION()
 	void UpdatePlacement() const;
-	
+
 	UFUNCTION(Server, Reliable)
 	void Server_Place(AActor* PlacementPreviewToSpawn);
 
 	UFUNCTION(Client, Reliable)
 	void EndPlacement();
-	
+
 	UPROPERTY()
 	bool bPlacementModeEnabled;
 
@@ -144,4 +182,16 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Settings|Placeable")
 	TSubclassOf<AActor> PreviewActorType;
+
+	/** UI **/
+public:
+	UFUNCTION()
+	void CreateHUD();
+
+protected:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Settings|UI")
+	TSubclassOf<UUserWidget> HudClass;
+
+	UPROPERTY()
+	UHudWidget* HUD;
 };

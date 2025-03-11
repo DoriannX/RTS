@@ -7,7 +7,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "PlacementPreview.h"
 #include "Selectable.h"
+#include "Blueprint/UserWidget.h"
+#include "Data/FormationDataAsset.h"
+#include "Engine/AssetManager.h"
 #include "Net/UnrealNetwork.h"
+#include "UI/HudWidget.h"
 
 ASPlayerController::ASPlayerController(const FObjectInitializer& ObjectInitializer)
 {
@@ -28,13 +32,15 @@ void ASPlayerController::Handle_Selection(AActor* ActorToSelect)
 		if (ActorToSelect && ActorSelected(ActorToSelect))
 		{
 			Server_DeSelect(ActorToSelect);
-		}else
+		}
+		else
 		{
 			Server_Select(ActorToSelect);
 		}
-	}else
+	}
+	else
 	{
-		Server_ClearSelected(); 
+		Server_ClearSelected();
 	}
 }
 
@@ -61,7 +67,8 @@ FVector ASPlayerController::GetMousePositionOnTerrain() const
 	FVector WorldLocation, WorldDirection;
 	DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
 	FHitResult OutHit;
-	if (GetWorld()->LineTraceSingleByChannel(OutHit, WorldLocation, WorldLocation + WorldDirection * 100000, ECC_GameTraceChannel1))
+	if (GetWorld()->LineTraceSingleByChannel(OutHit, WorldLocation, WorldLocation + WorldDirection * 100000,
+	                                         ECC_GameTraceChannel1))
 	{
 		if (OutHit.bBlockingHit)
 		{
@@ -77,7 +84,8 @@ FVector ASPlayerController::GetMousePositionOnSurface() const
 	FVector WorldLocation, WorldDirection;
 	DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
 	FHitResult OutHit;
-	if (GetWorld()->LineTraceSingleByChannel(OutHit, WorldLocation, WorldLocation + WorldDirection * 100000, ECC_Visibility))
+	if (GetWorld()->LineTraceSingleByChannel(OutHit, WorldLocation, WorldLocation + WorldDirection * 100000,
+	                                         ECC_Visibility))
 	{
 		if (OutHit.bBlockingHit)
 		{
@@ -102,10 +110,18 @@ void ASPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	verify((AssetManager = UAssetManager::GetIfValid()) != nullptr);
+
 	FInputModeGameAndUI InputMode;
 	InputMode.SetHideCursorDuringCapture(false);
 	SetInputMode(InputMode);
 	bShowMouseCursor = true;
+
+	//Create Formation Data
+	CreateFormationData();
+
+	//Create Hud
+	CreateHUD();
 }
 
 bool ASPlayerController::ActorSelected(AActor* ActorToCheck) const
@@ -218,6 +234,28 @@ void ASPlayerController::CommandSelected(FCommandData CommandData)
 	Server_CommandSelected(CommandData);
 }
 
+void ASPlayerController::UpdateFormation(const EFormation Formation)
+{
+	CurrentFormation = Formation;
+
+	if (HasGroupSelection() && Selected.IsValidIndex(0))
+	{
+		CommandSelected(FCommandData(Selected[0]->GetActorLocation(), Selected[0]->GetActorRotation(), ECommandType::CommandMove));
+	}
+}
+
+void ASPlayerController::UpdateSpacing(const float NewSpacing)
+{
+	FormationSpacing = NewSpacing;
+
+	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, FString::Printf(TEXT("Spacing: %f"), FormationSpacing));
+
+	if (HasGroupSelection() && Selected.IsValidIndex(0))
+	{
+		CommandSelected(FCommandData(Selected[0]->GetActorLocation(), Selected[0]->GetActorRotation(), ECommandType::CommandMove));
+	}
+}
+
 void ASPlayerController::Server_CommandSelected_Implementation(FCommandData CommandData)
 {
 	if (!HasAuthority())
@@ -229,14 +267,118 @@ void ASPlayerController::Server_CommandSelected_Implementation(FCommandData Comm
 	{
 		if (ARTSCharacter* SelectedCharacter = Cast<ARTSCharacter>(Selected[i]))
 		{
+			CalculateOffset(i, CommandData);
 			SelectedCharacter->CommandMoveToLocation(CommandData);
 		}
 	}
 }
 
+void ASPlayerController::CreateFormationData()
+{
+	const FPrimaryAssetType AssetType("FormationData");
+	TArray<FPrimaryAssetId> Formations;
+	AssetManager->GetPrimaryAssetIdList(AssetType, Formations);
+
+	if (Formations.Num() > 0)
+	{
+		const TArray<FName> Bundles;
+		const FStreamableDelegate FormationDataLoadedDelegate = FStreamableDelegate::CreateUObject(this, &ASPlayerController::OnFormationDataLoaded, Formations);
+		AssetManager->LoadPrimaryAssets(Formations, Bundles, FormationDataLoadedDelegate);
+	}
+}
+
+void ASPlayerController::OnFormationDataLoaded(TArray<FPrimaryAssetId> Formations)
+{
+	for (int i = 0; i < Formations.Num(); ++i)
+	{
+		if (UFormationDataAsset* FormationDataAsset = Cast<UFormationDataAsset>(AssetManager->GetPrimaryAssetObject(Formations[i])))
+		{
+			FormationData.Add(FormationDataAsset);
+		}
+	}
+}
+
+UFormationDataAsset* ASPlayerController::GetFormationData()
+{
+	for (int i = 0; i < FormationData.Num(); ++i)
+	{
+		if (FormationData[i]->FormationType == CurrentFormation)
+		{
+			return FormationData[i];
+		}
+	}
+
+	return nullptr;
+}
+
+void ASPlayerController::CalculateOffset(const int Index, FCommandData& CommandData)
+{
+	if (FormationData.Num() <= 0)
+	{
+		return;
+	}
+
+	if (const UFormationDataAsset* CurrentFormationData = GetFormationData())
+	{
+		FVector Offset = CurrentFormationData->Offset;
+
+		switch (CurrentFormationData->FormationType)
+		{
+		case EFormation::Blob:
+			{
+				if (Index != 0)
+				{
+					//Distribute characters evenly around the circle
+					float Angle = (Index / static_cast<float>(Selected.Num())) * 2 * PI;
+
+					//Add random range to circle
+					float MinSpacing = FormationSpacing * 0.5f;
+					if (Index % 2 == 0)
+					{
+						MinSpacing = MinSpacing * -1;
+					}
+					const float Radius = FMath::RandRange(MinSpacing, FormationSpacing);
+
+					Offset.X = Radius * FMath::Cos(Angle);
+					Offset.Y = Radius * FMath::Sin(Angle);
+
+				}
+				break;
+			}
+		default:
+			{
+				if (CurrentFormationData->Alternate)
+				{
+					//Alternate the side the position wille be on
+					if (Index % 2 == 0)
+					{
+						//even
+						Offset.Y = Offset.Y * -1;
+					}
+
+					//Allow two positions on each row, using the alternate position
+					Offset *= FMath::Floor((Index + 1) / 2) * FormationSpacing;
+				}
+				else
+				{
+					//Calculate a normal offset
+					Offset *= Index * FormationSpacing;
+				}
+			}
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Offset: %s"), *Offset.ToString()));
+
+
+		Offset = CommandData.Rotation.RotateVector(Offset);
+		CommandData.Location = CommandData.SourceLocation + Offset;
+
+	}
+}
+
 void ASPlayerController::AddInputMapping(const UInputMappingContext* InputMapping, const int32 MappingPriority) const
 {
-	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<
+		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		ensure(InputMapping);
 
@@ -249,7 +391,8 @@ void ASPlayerController::AddInputMapping(const UInputMappingContext* InputMappin
 
 void ASPlayerController::RemoveInputMapping(const UInputMappingContext* InputMapping) const
 {
-	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<
+		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		ensure(InputMapping);
 		InputSubsystem->RemoveMappingContext(InputMapping);
@@ -267,7 +410,8 @@ void ASPlayerController::SetInputDefault(const bool Enabled) const
 		if (Enabled)
 		{
 			AddInputMapping(PlayerActions->MappingContextDefault, PlayerActions->MapPriorityDefault);
-		}else
+		}
+		else
 		{
 			RemoveInputMapping(PlayerActions->MappingContextDefault);
 		}
@@ -284,7 +428,8 @@ void ASPlayerController::SetInputPlacement(const bool Enabled) const
 		{
 			AddInputMapping(PlayerActions->MappingContextPlacement, PlayerActions->MapPriorityDefault);
 			SetInputDefault(!Enabled);
-		}else
+		}
+		else
 		{
 			RemoveInputMapping(PlayerActions->MappingContextPlacement);
 			SetInputDefault();
@@ -303,7 +448,8 @@ void ASPlayerController::SetInputShift(const bool Enabled) const
 		if (Enabled)
 		{
 			AddInputMapping(PlayerActions->MappingContextShift, PlayerActions->MapPriorityDefault);
-		}else
+		}
+		else
 		{
 			RemoveInputMapping(PlayerActions->MappingContextShift);
 		}
@@ -321,7 +467,8 @@ void ASPlayerController::SetInputAlt(const bool Enabled) const
 		if (Enabled)
 		{
 			AddInputMapping(PlayerActions->MappingContextAlt, PlayerActions->MapPriorityDefault);
-		}else
+		}
+		else
 		{
 			RemoveInputMapping(PlayerActions->MappingContextAlt);
 		}
@@ -339,7 +486,8 @@ void ASPlayerController::SetInputCtrl(const bool Enabled) const
 		if (Enabled)
 		{
 			AddInputMapping(PlayerActions->MappingContextCtrl, PlayerActions->MapPriorityDefault);
-		}else
+		}
+		else
 		{
 			RemoveInputMapping(PlayerActions->MappingContextCtrl);
 		}
@@ -350,7 +498,8 @@ void ASPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<
+		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		InputSubsystem->ClearAllMappings();
 		SetInputDefault();
@@ -366,7 +515,8 @@ void ASPlayerController::SetPlacementPreview()
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-		PlacementPreviewActor = GetWorld()->SpawnActor<APlacementPreview>(PreviewActorType, SpawnTransform, SpawnParams);
+		PlacementPreviewActor = GetWorld()->SpawnActor<
+			APlacementPreview>(PreviewActorType, SpawnTransform, SpawnParams);
 
 		if (PlacementPreviewActor)
 		{
@@ -421,6 +571,18 @@ void ASPlayerController::UpdatePlacement() const
 	PlacementPreviewActor->SetActorLocation(GetMousePositionOnSurface());
 }
 
+void ASPlayerController::CreateHUD()
+{
+	if (HudClass)
+	{
+		HUD = CreateWidget<UHudWidget>(GetWorld(), HudClass);
+		if (HUD != nullptr)
+		{
+			HUD->AddToViewport();
+		}
+	}
+}
+
 void ASPlayerController::EndPlacement_Implementation()
 {
 	PlacementPreviewActor->Destroy();
@@ -436,7 +598,8 @@ void ASPlayerController::Server_Place_Implementation(AActor* PlacementPreviewToS
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-		if (ARTSCharacter* NewUnit = GetWorld()->SpawnActor<ARTSCharacter>(Preview->PlaceableClass, SpawnTransform, SpawnParams))
+		if (ARTSCharacter* NewUnit = GetWorld()->SpawnActor<ARTSCharacter>(
+			Preview->PlaceableClass, SpawnTransform, SpawnParams))
 		{
 			NewUnit->SetOwner(this);
 		}
